@@ -38,12 +38,7 @@ class ChartPainter extends CustomPainter {
     ..style = PaintingStyle.fill
     ..strokeCap = StrokeCap.round;
 
-  final _valueTextPainter = TextPainter(
-    textAlign: TextAlign.center,
-    textDirection: TextDirection.ltr,
-  );
-
-  final _stateNameTextPainter = TextPainter(
+  final _textPainter = TextPainter(
     textAlign: TextAlign.center,
     textDirection: TextDirection.ltr,
   );
@@ -57,8 +52,7 @@ class ChartPainter extends CustomPainter {
 
     // Move the canvas's center to the left edge and add some vertical space
     // between the state name and the rest of the canvas.
-    final verticalSpaceBetweenStateNameAndChart =
-        _stateNameTextPainter.height + 16.0;
+    final verticalSpaceBetweenStateNameAndChart = _textPainter.height + 16.0;
 
     canvas.translate(
       (_chartWidth * -1) / 2,
@@ -117,32 +111,76 @@ class ChartPainter extends CustomPainter {
     _rectPaint.color = rectangle.color;
     canvas.drawPath(path, _rectPaint);
 
-    _drawValue(
+    _drawTitleAndValue(
       canvas,
+      title: rectangle.title,
       value: rectangle.value,
       rectTopRightX: x2,
       rectTopRightY: y1,
     );
   }
 
-  void _drawValue(
+  void _drawTitleAndValue(
     Canvas canvas, {
+    required String title,
     required double value,
     required double rectTopRightX,
     required double rectTopRightY,
   }) {
+    var titleString = title;
     var valueString = value.round().toString();
+
+    if (title.length > 15) {
+      titleString = '${titleString.substring(0, 15)}..';
+    }
 
     if (valueString.length > 5) {
       valueString = '${valueString.substring(0, 5)}..';
     }
 
-    _valueTextPainter.text = TextSpan(
-      text: valueString,
-      style: const TextStyle(color: Colors.black, fontSize: 12),
+    _textPainter.text = TextSpan(
+      text: titleString,
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
     );
 
-    _paintValue(canvas, x: rectTopRightX, y: rectTopRightY + 3);
+    _paintTitle(canvas, x: rectTopRightX, y: rectTopRightY);
+
+    final titleHeight = _textPainter.height;
+
+    _textPainter.text = TextSpan(
+      text: valueString,
+      style: const TextStyle(color: Colors.black, fontSize: 16),
+    );
+
+    _paintValue(
+      canvas,
+      x: rectTopRightX,
+      y: rectTopRightY + titleHeight,
+    );
+  }
+
+  void _paintTitle(
+    Canvas canvas, {
+    required double x,
+    required double y,
+  }) {
+    canvas.save();
+
+    _textPainter.layout();
+
+    // Take the canvas to the top-right vertex of the rectangle
+    canvas.translate(x, y);
+
+    // Paint the value inside the rectangle having a vertical padding of 8px
+    // from the right and 8px from the top.
+    final textWidth = _textPainter.width;
+    _textPainter.paint(canvas, Offset((textWidth + 8) * -1.0, 8));
+
+    canvas.restore();
   }
 
   void _paintValue(
@@ -152,15 +190,15 @@ class ChartPainter extends CustomPainter {
   }) {
     canvas.save();
 
-    _valueTextPainter.layout();
+    _textPainter.layout();
 
     // Take the canvas to the top-right vertex of the rectangle
     canvas.translate(x, y);
 
     // Paint the value inside the rectangle having a vertical padding of 8px
-    // from the right and 4px from the top.
-    final textWidth = _valueTextPainter.width;
-    _valueTextPainter.paint(canvas, Offset((textWidth + 8) * -1.0, 4));
+    // from the right and 8px from the top.
+    final textWidth = _textPainter.width;
+    _textPainter.paint(canvas, Offset((textWidth + 8) * -1.0, 8));
 
     canvas.restore();
   }
@@ -170,7 +208,7 @@ class ChartPainter extends CustomPainter {
     required String name,
     required double chartWidth,
   }) {
-    _stateNameTextPainter
+    _textPainter
       ..text = TextSpan(text: name, style: _currentStateNameTextStyle)
       ..layout()
       ..paint(
@@ -187,7 +225,7 @@ class ChartPainter extends CustomPainter {
           // |               HelloWorld     |
           // |                              |
           // |                              |
-          (_stateNameTextPainter.width / 2) / -1.0,
+          (_textPainter.width / 2) / -1.0,
           0,
         ),
       );
