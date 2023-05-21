@@ -133,8 +133,8 @@ class ChartPainter extends CustomPainter {
     var titleString = title;
     var valueString = value.round().toString();
 
-    if (title.length > 15) {
-      titleString = '${titleString.substring(0, 15)}..';
+    if (title.length > 35) {
+      titleString = '${titleString.substring(0, 35)}..';
     }
 
     if (valueString.length > 5) {
