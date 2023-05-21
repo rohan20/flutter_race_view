@@ -117,14 +117,19 @@ class ChartPainter extends CustomPainter {
     _rectPaint.color = rectangle.color;
     canvas.drawPath(path, _rectPaint);
 
-    _drawValue(canvas, value: rectangle.value, x2: x2, y1: y1);
+    _drawValue(
+      canvas,
+      value: rectangle.value,
+      rectTopRightX: x2,
+      rectTopRightY: y1,
+    );
   }
 
   void _drawValue(
     Canvas canvas, {
     required double value,
-    required double x2,
-    required double y1,
+    required double rectTopRightX,
+    required double rectTopRightY,
   }) {
     var valueString = value.round().toString();
 
@@ -137,10 +142,10 @@ class ChartPainter extends CustomPainter {
       style: const TextStyle(color: Colors.black, fontSize: 12),
     );
 
-    _drawRectangleValue(canvas, x: x2, y: y1 + 3);
+    _paintValue(canvas, x: rectTopRightX, y: rectTopRightY + 3);
   }
 
-  void _drawRectangleValue(
+  void _paintValue(
     Canvas canvas, {
     required double x,
     required double y,
@@ -149,9 +154,13 @@ class ChartPainter extends CustomPainter {
 
     _valueTextPainter.layout();
 
+    // Take the canvas to the top-right vertex of the rectangle
     canvas.translate(x, y);
 
-    _valueTextPainter.paint(canvas, const Offset(5, 0));
+    // Paint the value inside the rectangle having a vertical padding of 8px
+    // from the right and 4px from the top.
+    final textWidth = _valueTextPainter.width;
+    _valueTextPainter.paint(canvas, Offset((textWidth + 8) * -1.0, 4));
 
     canvas.restore();
   }
