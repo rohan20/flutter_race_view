@@ -11,11 +11,17 @@ class ChartPainter extends CustomPainter {
   ChartPainter({
     required List<Rectangle> currentData,
     required double chartWidth,
+    required String currentStateName,
+    required TextStyle currentStateNameTextStyle,
   })  : _currentData = currentData,
-        _chartWidth = chartWidth;
+        _chartWidth = chartWidth,
+        _currentStateName = currentStateName,
+        _currentStateNameTextStyle = currentStateNameTextStyle;
 
   final List<Rectangle> _currentData;
   final double _chartWidth;
+  final String _currentStateName;
+  final TextStyle _currentStateNameTextStyle;
 
   final double _rectHeight = 75;
   final double _numberOfRects = 4;
@@ -37,11 +43,29 @@ class ChartPainter extends CustomPainter {
     textDirection: TextDirection.ltr,
   );
 
+  final _stateNameTextPainter = TextPainter(
+    textAlign: TextAlign.center,
+    textDirection: TextDirection.ltr,
+  );
+
   @override
   void paint(Canvas canvas, Size size) {
-    // (0, 0) is the center of the UI. We want the canvas to start on the left.
-    canvas.translate((_chartWidth * -1) / 2, 0);
+    // (0, 0) is the top-center of the canvas.
 
+    // Paint the state name at the top-center of the canvas.
+    _drawStateName(canvas, name: _currentStateName, chartWidth: _chartWidth);
+
+    // Move the canvas's center to the left edge and add some vertical space
+    // between the state name and the rest of the canvas.
+    final verticalSpaceBetweenStateNameAndChart =
+        _stateNameTextPainter.height + 16.0;
+
+    canvas.translate(
+      (_chartWidth * -1) / 2,
+      verticalSpaceBetweenStateNameAndChart,
+    );
+
+    // Paint the chart axes on the left edge of the canvas.
     _drawChartAxes(canvas);
 
     for (var i = 0; i < _currentData.length; i++) {
@@ -122,6 +146,34 @@ class ChartPainter extends CustomPainter {
     _valueTextPainter.paint(canvas, const Offset(5, 0));
 
     canvas.restore();
+  }
+
+  void _drawStateName(
+    Canvas canvas, {
+    required String name,
+    required double chartWidth,
+  }) {
+    _stateNameTextPainter
+      ..text = TextSpan(text: name, style: _currentStateNameTextStyle)
+      ..layout()
+      ..paint(
+        canvas,
+        Offset(
+          // This x-offset helps center the text instead of the text starting
+          // from the center of the x-axis of canvas. This will display:
+          // |          HelloWorld          |
+          // |                              |
+          // |                              |
+          //
+          // instead of:
+          //
+          // |               HelloWorld     |
+          // |                              |
+          // |                              |
+          (_stateNameTextPainter.width / 2) / -1.0,
+          0,
+        ),
+      );
   }
 
   @override

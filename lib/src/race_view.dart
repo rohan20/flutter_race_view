@@ -10,14 +10,44 @@ class RaceView extends StatefulWidget {
   /// ...
   const RaceView({
     required this.data,
+    required this.dataColumnNames,
+    required this.dataRowNames,
+    required TextStyle dataRowNameTextStyle,
     super.key,
-  });
+  }) : _dataRowNameTextStyle = dataRowNameTextStyle;
 
   /// A 2D array of data. Each row represents a single state of the chart.
   ///
   /// For example: If the length of [data] is 5, there will be 5 different
   /// states of the chart that it will animate between.
   final List<List<double>> data;
+
+  /// The names of the columns in [data]. These end up being displayed on the
+  /// y-axis of the chart where each rectangle represents one of these names.
+  ///
+  /// For example: If you were building a chart representing stocks of companies
+  /// A, B, C and D, then [dataColumnNames] would be ['A', 'B', 'C', 'D'].
+  final List<String> dataColumnNames;
+
+  /// The names of the rows in [data].
+  ///
+  /// For example: If the length of [dataRowNames] is 5, there will be 5
+  /// different states of the chart that it will animate between.
+  ///
+  /// Each entry in the list represents the name of that chart state.
+  ///
+  /// For example: If you were building a chart representing stocks of companies
+  /// A, B, C and D, then [dataRowNames] could be the name of the year
+  /// representing the value of the stock in each chart state. If the chart was
+  /// displaying data over 6 years, where each chart state representing 1 year,
+  /// then this would be a List of 6 strings:
+  /// ['2017', '2018', '2019', '2020', '2021', '2022'].
+  ///
+  /// Only one entry from the list is displayed at a time at the bottom-right of
+  /// the chart.
+  final List<String> dataRowNames;
+
+  final TextStyle _dataRowNameTextStyle;
 
   @override
   State<RaceView> createState() => _RaceViewState();
@@ -28,6 +58,7 @@ class _RaceViewState extends State<RaceView> {
   late final int statesCount;
   late final int rectsCount;
   late List<Rectangle> _currentStateRectData;
+  late String _currentStateName;
 
   @override
   void initState() {
@@ -36,6 +67,7 @@ class _RaceViewState extends State<RaceView> {
     statesCount = _allStatesRectData.length;
     rectsCount = _allStatesRectData[0].length;
     _currentStateRectData = _allStatesRectData[0];
+    _currentStateName = widget.dataRowNames[0];
 
     play();
   }
@@ -47,6 +79,8 @@ class _RaceViewState extends State<RaceView> {
         return CustomPaint(
           painter: ChartPainter(
             currentData: _currentStateRectData,
+            currentStateName: _currentStateName,
+            currentStateNameTextStyle: widget._dataRowNameTextStyle,
             chartWidth: constraints.maxWidth * 0.75,
           ),
         );
@@ -55,7 +89,13 @@ class _RaceViewState extends State<RaceView> {
   }
 
   Future<void> play() async {
+    // Added this delay so that the user sees the initial state of the chart
+    // before it starts autoplaying.
+    await Future<void>.delayed(const Duration(milliseconds: 1000));
+
     for (var i = 1; i < statesCount; i++) {
+      _currentStateName = widget.dataRowNames[i];
+
       await _animateBetweenStates(
         fromStateRectData: _allStatesRectData[i - 1],
         toStateRectData: _allStatesRectData[i],
