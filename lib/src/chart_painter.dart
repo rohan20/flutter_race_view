@@ -137,11 +137,19 @@ class ChartPainter extends CustomPainter {
       style: const TextStyle(color: Colors.black, fontSize: 12),
     );
 
+    _drawRectangleValue(canvas, x: x2, y: y1 + 3);
+  }
+
+  void _drawRectangleValue(
+    Canvas canvas, {
+    required double x,
+    required double y,
+  }) {
     canvas.save();
 
     _valueTextPainter.layout();
 
-    canvas.translate(x2, y1 + 3);
+    canvas.translate(x, y);
 
     _valueTextPainter.paint(canvas, const Offset(5, 0));
 
