@@ -81,7 +81,7 @@ class _RaceViewState extends State<RaceView> {
             currentData: _currentStateRectData,
             currentStateName: _currentStateName,
             currentStateNameTextStyle: widget._dataRowNameTextStyle,
-            chartWidth: constraints.maxWidth * 0.75,
+            chartWidth: constraints.maxWidth * 0.9,
           ),
         );
       },
