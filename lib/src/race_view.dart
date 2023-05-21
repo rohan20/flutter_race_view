@@ -141,6 +141,10 @@ class _RaceViewState extends State<RaceView> {
             (toStateRectData[currentRect].value - fromStateRect.value) /
                 framesCount;
 
+        if (!mounted) {
+          return;
+        }
+
         setState(() {
           _currentStateRectData[currentRect].rank =
               fromStateRectData[currentRect].rank +
