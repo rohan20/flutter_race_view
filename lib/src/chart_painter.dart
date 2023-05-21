@@ -13,18 +13,21 @@ class ChartPainter extends CustomPainter {
     required double chartWidth,
     required String currentStateName,
     required TextStyle currentStateNameTextStyle,
+    required double rectHeight,
   })  : _currentData = currentData,
         _chartWidth = chartWidth,
         _currentStateName = currentStateName,
-        _currentStateNameTextStyle = currentStateNameTextStyle;
+        _currentStateNameTextStyle = currentStateNameTextStyle,
+        _numberOfRects = currentData.length,
+        _rectHeight = rectHeight;
 
   final List<Rectangle> _currentData;
   final double _chartWidth;
   final String _currentStateName;
   final TextStyle _currentStateNameTextStyle;
 
-  final double _rectHeight = 75;
-  final double _numberOfRects = 4;
+  late final double _rectHeight;
+  late final int _numberOfRects;
   final double _verticalSpaceBetweenTwoRects = 8;
 
   final Paint _linePaint = Paint()

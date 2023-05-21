@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_race_view/src/chart_painter.dart';
 import 'package:flutter_race_view/src/rectangle.dart';
@@ -11,10 +9,17 @@ class RaceView extends StatefulWidget {
   const RaceView({
     required this.data,
     required this.dataColumnNames,
+    required this.dataColumnColors,
     required this.dataRowNames,
     required TextStyle dataRowNameTextStyle,
+    double? rectHeight,
     super.key,
-  }) : _dataRowNameTextStyle = dataRowNameTextStyle;
+  })  : _dataRowNameTextStyle = dataRowNameTextStyle,
+        _rectHeight = rectHeight ?? 50.0,
+        assert(
+          dataColumnNames.length == dataColumnColors.length,
+          'The length of dataColumnNames and dataColumnColors must be the same',
+        );
 
   /// A 2D array of data. Each row represents a single state of the chart.
   ///
@@ -28,6 +33,10 @@ class RaceView extends StatefulWidget {
   /// For example: If you were building a chart representing stocks of companies
   /// A, B, C and D, then [dataColumnNames] would be ['A', 'B', 'C', 'D'].
   final List<String> dataColumnNames;
+
+  /// The colors of the columns in [data]. These end up being the colors of the
+  /// rectangles in the chart.
+  final List<Color> dataColumnColors;
 
   /// The names of the rows in [data].
   ///
@@ -48,6 +57,8 @@ class RaceView extends StatefulWidget {
   final List<String> dataRowNames;
 
   final TextStyle _dataRowNameTextStyle;
+
+  final double _rectHeight;
 
   @override
   State<RaceView> createState() => _RaceViewState();
@@ -74,17 +85,20 @@ class _RaceViewState extends State<RaceView> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, constraints) {
-        return CustomPaint(
-          painter: ChartPainter(
-            currentData: _currentStateRectData,
-            currentStateName: _currentStateName,
-            currentStateNameTextStyle: widget._dataRowNameTextStyle,
-            chartWidth: constraints.maxWidth * 0.9,
-          ),
-        );
-      },
+    return SingleChildScrollView(
+      child: LayoutBuilder(
+        builder: (_, constraints) {
+          return CustomPaint(
+            painter: ChartPainter(
+              currentData: _currentStateRectData,
+              currentStateName: _currentStateName,
+              currentStateNameTextStyle: widget._dataRowNameTextStyle,
+              chartWidth: constraints.maxWidth * 0.9,
+              rectHeight: widget._rectHeight,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -182,12 +196,12 @@ class _RaceViewState extends State<RaceView> {
         final currentValue = currentStateRectData[indexBasedOnSort];
         final currentTitle = widget.dataColumnNames[indexBasedOnSort];
 
-        final randomColor = Color((Random().nextDouble() * 0xFFFFFF).toInt());
+        final backgroundColor = widget.dataColumnColors[indexBasedOnSort];
 
         final rect = Rectangle(
           rank: j * 1.0,
           width: currentValue / maxValue,
-          color: randomColor.withOpacity(1),
+          color: backgroundColor,
           value: currentValue,
           title: currentTitle,
         );
