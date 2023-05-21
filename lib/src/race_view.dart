@@ -180,6 +180,7 @@ class _RaceViewState extends State<RaceView> {
         final indexBasedOnSort = rectIndexesSortedByDataInDecreasingOrdered[j];
 
         final currentValue = currentStateRectData[indexBasedOnSort];
+        final currentTitle = widget.dataColumnNames[indexBasedOnSort];
 
         final randomColor = Color((Random().nextDouble() * 0xFFFFFF).toInt());
 
@@ -188,6 +189,7 @@ class _RaceViewState extends State<RaceView> {
           width: currentValue / maxValue,
           color: randomColor.withOpacity(1),
           value: currentValue,
+          title: currentTitle,
         );
 
         // Replace previous rect with new rect
