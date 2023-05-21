@@ -17,11 +17,20 @@ class Rectangle {
 
     /// ...
     required this.value,
+
+    /// ...
+    required this.title,
   });
 
   /// ...
   factory Rectangle.dummy() {
-    return Rectangle(rank: 0, width: 0, color: Colors.black, value: 0);
+    return Rectangle(
+      rank: 0,
+      width: 0,
+      color: Colors.black,
+      value: 0,
+      title: '',
+    );
   }
 
   /// ...
@@ -32,6 +41,9 @@ class Rectangle {
 
   /// ...
   double width;
+
+  /// ...
+  String title;
 
   /// ...
   final Color color;
