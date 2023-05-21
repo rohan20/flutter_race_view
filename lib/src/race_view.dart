@@ -122,7 +122,7 @@ class _RaceViewState extends State<RaceView> {
     required List<Rectangle> toStateRectData,
   }) async {
     const framesCount = 30;
-    const fps = 60;
+    const fps = 90;
 
     for (var currentFrame = 1; currentFrame <= framesCount; currentFrame++) {
       // for each frame, update the current state of the chart
