@@ -147,7 +147,7 @@ class ChartPainter extends CustomPainter {
       ),
     );
 
-    _paintTitle(canvas, x: rectTopRightX, y: rectTopRightY);
+    _paintText(canvas, x: rectTopRightX, y: rectTopRightY);
 
     final titleHeight = _textPainter.height;
 
@@ -156,34 +156,14 @@ class ChartPainter extends CustomPainter {
       style: const TextStyle(color: Colors.black, fontSize: 16),
     );
 
-    _paintValue(
+    _paintText(
       canvas,
       x: rectTopRightX,
       y: rectTopRightY + titleHeight,
     );
   }
 
-  void _paintTitle(
-    Canvas canvas, {
-    required double x,
-    required double y,
-  }) {
-    canvas.save();
-
-    _textPainter.layout();
-
-    // Take the canvas to the top-right vertex of the rectangle
-    canvas.translate(x, y);
-
-    // Paint the value inside the rectangle having a vertical padding of 8px
-    // from the right and 8px from the top.
-    final textWidth = _textPainter.width;
-    _textPainter.paint(canvas, Offset((textWidth + 8) * -1.0, 8));
-
-    canvas.restore();
-  }
-
-  void _paintValue(
+  void _paintText(
     Canvas canvas, {
     required double x,
     required double y,
