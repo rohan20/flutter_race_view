@@ -1,5 +1,5 @@
 name: flutter_race_view
-description: A Very Good Project created by Very Good CLI.
+description: A Flutter library which includes an animated bar chart race of all entities in a data set.
 version: 0.1.0+1
 publish_to: none
 
