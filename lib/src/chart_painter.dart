@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_race_view/src/rectangle.dart';
 
-// TODO(rohan20): Add docs
-/// ...
+// TODO(rohan20): Add rectTitleTextStyle and rectValueTextStyle
+/// Paints a particular state of the chart that comprises of the chart-title,
+/// chart-axes and rectangles formed by currentData.
 class ChartPainter extends CustomPainter {
-  // TODO(rohan20): Add docs
-  /// ...
+  /// Basic constructor for [ChartPainter].
   ChartPainter({
     required List<Rectangle> currentData,
     required double chartWidth,
