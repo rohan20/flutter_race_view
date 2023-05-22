@@ -203,8 +203,9 @@ class _RaceViewState extends State<RaceView> {
       final maxValue = currentStateRectData[
           rectIndexesSortedByDataInDecreasingOrdered.first];
 
-      // TODO(rohan20): Sort in decreasing order
       for (var j = 0; j < currentStateRectData.length; j++) {
+        // Using this index ensures the rectangle with the highest value appears
+        // at the top of the chart.
         final indexBasedOnSort = rectIndexesSortedByDataInDecreasingOrdered[j];
 
         final currentValue = currentStateRectData[indexBasedOnSort];
@@ -213,7 +214,9 @@ class _RaceViewState extends State<RaceView> {
         final backgroundColor = widget.dataColumnColors[indexBasedOnSort];
 
         final rect = Rectangle(
-          rank: j * 1.0,
+          // rank of highest value rect is 0, rank of second highest value rect
+          // is 1, etc.
+          rank: j.toDouble(),
           width: currentValue / maxValue,
           color: backgroundColor,
           value: currentValue,
