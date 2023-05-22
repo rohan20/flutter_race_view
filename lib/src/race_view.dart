@@ -16,11 +16,16 @@ class RaceView extends StatefulWidget {
     required this.dataRowNames,
     TextStyle? dataRowNameTextStyle,
     double? rectHeight,
+    double? verticalSpaceBetweenTwoRects,
+    double? verticalSpaceBetweenStateNameAndChart,
     super.key,
   })  : _dataRowNameTextStyle = dataRowNameTextStyle,
         _dataColumnNameTextStyle = dataColumnNameTextStyle,
         _dataColumnValueTextStyle = dataColumnValueTextStyle,
         _rectHeight = rectHeight ?? 50.0,
+        _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects ?? 8.0,
+        _verticalSpaceBetweenStateNameAndChart =
+            verticalSpaceBetweenStateNameAndChart ?? 16.0,
         assert(
           dataColumnNames.length == dataColumnColors.length,
           'The length of dataColumnNames and dataColumnColors must be the same',
@@ -69,11 +74,20 @@ class RaceView extends StatefulWidget {
 
   final double _rectHeight;
 
+  final double _verticalSpaceBetweenTwoRects;
+
+  final double _verticalSpaceBetweenStateNameAndChart;
+
   @override
   State<RaceView> createState() => _RaceViewState();
 }
 
 class _RaceViewState extends State<RaceView> {
+  static const _defaultTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+
   late final List<List<Rectangle>> _allStatesRectData;
   late final int statesCount;
   late final int rectsCount;
@@ -94,22 +108,39 @@ class _RaceViewState extends State<RaceView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: LayoutBuilder(
-        builder: (_, constraints) {
-          return CustomPaint(
-            painter: ChartPainter(
-              currentData: _currentStateRectData,
-              currentStateName: _currentStateName,
-              currentStateNameTextStyle: widget._dataRowNameTextStyle,
-              chartWidth: constraints.maxWidth * 0.9,
-              rectTitleTextStyle: widget._dataColumnNameTextStyle,
-              rectValueTextStyle: widget._dataColumnValueTextStyle,
-              rectHeight: widget._rectHeight,
-            ),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        final stateNameTextStyle =
+            widget._dataRowNameTextStyle ?? _defaultTextStyle;
+
+        final stateNameTextHeight = _currentStateName.getTextHeight(
+          style: stateNameTextStyle,
+        );
+
+        final chartHeight = (widget._rectHeight * rectsCount) +
+            (widget._verticalSpaceBetweenTwoRects * (rectsCount - 1));
+
+        final canvasSizeHeight = stateNameTextHeight +
+            widget._verticalSpaceBetweenStateNameAndChart +
+            chartHeight;
+
+        return CustomPaint(
+          size: Size(constraints.maxWidth, canvasSizeHeight),
+          painter: ChartPainter(
+            currentData: _currentStateRectData,
+            currentStateName: _currentStateName,
+            currentStateNameTextStyle: stateNameTextStyle,
+            rectTitleTextStyle:
+                widget._dataColumnNameTextStyle ?? _defaultTextStyle,
+            rectValueTextStyle: widget._dataColumnValueTextStyle ??
+                _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
+            rectHeight: widget._rectHeight,
+            verticalSpaceBetweenTwoRects: widget._verticalSpaceBetweenTwoRects,
+            verticalSpaceBetweenStateNameAndChart:
+                widget._verticalSpaceBetweenStateNameAndChart,
+          ),
+        );
+      },
     );
   }
 
@@ -234,5 +265,17 @@ class _RaceViewState extends State<RaceView> {
     }
 
     return allStatesRectData;
+  }
+}
+
+extension _TextX on String {
+  double getTextHeight({required TextStyle style}) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: this, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    return textPainter.size.height;
   }
 }
