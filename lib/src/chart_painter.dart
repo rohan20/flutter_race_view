@@ -9,7 +9,6 @@ class ChartPainter extends CustomPainter {
   /// Basic constructor for [ChartPainter].
   ChartPainter({
     required List<Rectangle> currentData,
-    required double chartWidth,
     required String currentStateName,
     required TextStyle currentStateNameTextStyle,
     required TextStyle rectTitleTextStyle,
@@ -18,7 +17,6 @@ class ChartPainter extends CustomPainter {
     required double verticalSpaceBetweenTwoRects,
     required double verticalSpaceBetweenStateNameAndChart,
   })  : _currentData = currentData,
-        _chartWidth = chartWidth,
         _currentStateName = currentStateName,
         _currentStateNameTextStyle = currentStateNameTextStyle,
         _rectTitleTextStyle = rectTitleTextStyle,
@@ -30,7 +28,6 @@ class ChartPainter extends CustomPainter {
             verticalSpaceBetweenStateNameAndChart;
 
   final List<Rectangle> _currentData;
-  final double _chartWidth;
   final String _currentStateName;
 
   final TextStyle _currentStateNameTextStyle;
@@ -62,8 +59,10 @@ class ChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // (0, 0) is the top-center of the canvas.
 
+    final chartWidth = size.width * 0.9;
+
     // Paint the state name at the top-center of the canvas.
-    _drawStateName(canvas, name: _currentStateName, chartWidth: _chartWidth);
+    _drawStateName(canvas, name: _currentStateName, chartWidth: chartWidth);
 
     // Move the canvas's center to the left edge and add some vertical space
     // between the state name and the rest of the canvas.
@@ -71,7 +70,7 @@ class ChartPainter extends CustomPainter {
         _textPainter.height + _verticalSpaceBetweenStateNameAndChart;
 
     canvas.translate(
-      (_chartWidth * -1) / 2,
+      (chartWidth * -1) / 2,
       verticalSpaceBetweenStateNameAndChart,
     );
 
@@ -79,7 +78,11 @@ class ChartPainter extends CustomPainter {
     _drawChartAxes(canvas);
 
     for (var i = 0; i < _currentData.length; i++) {
-      _drawRectangle(canvas, rectangle: _currentData[i]);
+      _drawRectangle(
+        canvas,
+        rectangle: _currentData[i],
+        chartWidth: chartWidth,
+      );
     }
   }
 
@@ -105,7 +108,11 @@ class ChartPainter extends CustomPainter {
     canvas.drawPath(path, _linePaint);
   }
 
-  void _drawRectangle(Canvas canvas, {required Rectangle rectangle}) {
+  void _drawRectangle(
+    Canvas canvas, {
+    required Rectangle rectangle,
+    required double chartWidth,
+  }) {
     final path = Path();
 
     final chartHeight = _rectHeight * _numberOfRects +
@@ -114,7 +121,7 @@ class ChartPainter extends CustomPainter {
     const x1 = 0.0;
     final y1 = rectangle.rank * (_rectHeight + _verticalSpaceBetweenTwoRects);
 
-    final x2 = rectangle.width * _chartWidth;
+    final x2 = rectangle.width * chartWidth;
     final y2 = min(y1 + _rectHeight, chartHeight);
     // min(...) ^so that the rectangle's top doesn't go out of the chart.
 

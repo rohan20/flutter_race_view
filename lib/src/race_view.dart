@@ -130,7 +130,6 @@ class _RaceViewState extends State<RaceView> {
             currentData: _currentStateRectData,
             currentStateName: _currentStateName,
             currentStateNameTextStyle: stateNameTextStyle,
-            chartWidth: constraints.maxWidth * 0.9,
             rectTitleTextStyle:
                 widget._dataColumnNameTextStyle ?? _defaultTextStyle,
             rectValueTextStyle: widget._dataColumnValueTextStyle ??
