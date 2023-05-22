@@ -17,12 +17,15 @@ class RaceView extends StatefulWidget {
     TextStyle? dataRowNameTextStyle,
     double? rectHeight,
     double? verticalSpaceBetweenTwoRects,
+    double? verticalSpaceBetweenStateNameAndChart,
     super.key,
   })  : _dataRowNameTextStyle = dataRowNameTextStyle,
         _dataColumnNameTextStyle = dataColumnNameTextStyle,
         _dataColumnValueTextStyle = dataColumnValueTextStyle,
         _rectHeight = rectHeight ?? 50.0,
         _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects ?? 8.0,
+        _verticalSpaceBetweenStateNameAndChart =
+            verticalSpaceBetweenStateNameAndChart ?? 16.0,
         assert(
           dataColumnNames.length == dataColumnColors.length,
           'The length of dataColumnNames and dataColumnColors must be the same',
@@ -73,6 +76,8 @@ class RaceView extends StatefulWidget {
 
   final double _verticalSpaceBetweenTwoRects;
 
+  final double _verticalSpaceBetweenStateNameAndChart;
+
   @override
   State<RaceView> createState() => _RaceViewState();
 }
@@ -112,10 +117,12 @@ class _RaceViewState extends State<RaceView> {
           style: stateNameTextStyle,
         );
 
+        final chartHeight = (widget._rectHeight * rectsCount) +
+            (widget._verticalSpaceBetweenTwoRects * (rectsCount - 1));
+
         final canvasSizeHeight = stateNameTextHeight +
-            (widget._rectHeight * rectsCount) +
-            (widget._verticalSpaceBetweenTwoRects * (rectsCount - 1)) +
-            16; // TODO(rohan20): Extract '16' into field
+            widget._verticalSpaceBetweenStateNameAndChart +
+            chartHeight;
 
         return CustomPaint(
           size: Size(constraints.maxWidth, canvasSizeHeight),
@@ -130,6 +137,8 @@ class _RaceViewState extends State<RaceView> {
                 _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
             rectHeight: widget._rectHeight,
             verticalSpaceBetweenTwoRects: widget._verticalSpaceBetweenTwoRects,
+            verticalSpaceBetweenStateNameAndChart:
+                widget._verticalSpaceBetweenStateNameAndChart,
           ),
         );
       },

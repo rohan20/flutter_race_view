@@ -16,6 +16,7 @@ class ChartPainter extends CustomPainter {
     required TextStyle rectValueTextStyle,
     required double rectHeight,
     required double verticalSpaceBetweenTwoRects,
+    required double verticalSpaceBetweenStateNameAndChart,
   })  : _currentData = currentData,
         _chartWidth = chartWidth,
         _currentStateName = currentStateName,
@@ -24,7 +25,9 @@ class ChartPainter extends CustomPainter {
         _rectValueTextStyle = rectValueTextStyle,
         _numberOfRects = currentData.length,
         _rectHeight = rectHeight,
-        _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects;
+        _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects,
+        _verticalSpaceBetweenStateNameAndChart =
+            verticalSpaceBetweenStateNameAndChart;
 
   final List<Rectangle> _currentData;
   final double _chartWidth;
@@ -37,6 +40,7 @@ class ChartPainter extends CustomPainter {
   late final double _rectHeight;
   late final int _numberOfRects;
   late final double _verticalSpaceBetweenTwoRects;
+  late final double _verticalSpaceBetweenStateNameAndChart;
 
   final Paint _linePaint = Paint()
     ..color = Colors.grey
@@ -63,7 +67,8 @@ class ChartPainter extends CustomPainter {
 
     // Move the canvas's center to the left edge and add some vertical space
     // between the state name and the rest of the canvas.
-    final verticalSpaceBetweenStateNameAndChart = _textPainter.height + 16.0;
+    final verticalSpaceBetweenStateNameAndChart =
+        _textPainter.height + _verticalSpaceBetweenStateNameAndChart;
 
     canvas.translate(
       (_chartWidth * -1) / 2,
