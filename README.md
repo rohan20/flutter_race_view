@@ -8,7 +8,9 @@ A Flutter library which includes an animated bar chart race of all entities in a
 
 ## Demo
 
-![Example video][example_video_link]
+<img src="example/assets/demo.gif" width="350" height="600">
+
+Also available as a video under `example/assets/demo.mov`.
 
 ## Installation 💻
 
@@ -44,4 +46,3 @@ flutter packages get
 [very_good_ventures_link_dark]: https://verygood.ventures#gh-dark-mode-only
 [very_good_workflows_link]: https://github.com/VeryGoodOpenSource/very_good_workflows
 [bar_chart_race_package_link]: https://github.com/younes38/bar_chart_race
-[example_video_link]: https://github.com/rohan20/flutter_race_view/assets/8232573/f30484f4-2b40-4aa5-a841-9409842d6ba3
