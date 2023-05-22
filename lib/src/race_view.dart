@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_race_view/src/chart_painter.dart';
 import 'package:flutter_race_view/src/rectangle.dart';
 
-// TODO(rohan20): Add docs.
-/// ...
+/// An animated bar chart depicting a race over time between the columns of
+/// [data] where each column represents a participant in the race and each row
+/// represents a single state of the chart.
 class RaceView extends StatefulWidget {
-  /// ...
+  /// Basic constructor for [RaceView].
   const RaceView({
     required this.data,
     required this.dataColumnNames,
