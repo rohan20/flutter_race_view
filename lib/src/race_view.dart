@@ -105,12 +105,14 @@ class _RaceViewState extends State<RaceView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constraints) {
+        final stateNameTextStyle = widget._dataRowNameTextStyle ??
+            _defaultTextStyle;
+
         return CustomPaint(
           painter: ChartPainter(
             currentData: _currentStateRectData,
             currentStateName: _currentStateName,
-            currentStateNameTextStyle:
-                widget._dataRowNameTextStyle ?? _defaultTextStyle,
+            currentStateNameTextStyle: stateNameTextStyle,
             chartWidth: constraints.maxWidth * 0.9,
             rectTitleTextStyle:
                 widget._dataColumnNameTextStyle ?? _defaultTextStyle,
