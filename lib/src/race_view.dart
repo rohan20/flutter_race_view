@@ -249,3 +249,15 @@ class _RaceViewState extends State<RaceView> {
     return allStatesRectData;
   }
 }
+
+extension _TextX on String {
+  double getTextHeight({required TextStyle style}) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: this, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    return textPainter.size.height;
+  }
+}
