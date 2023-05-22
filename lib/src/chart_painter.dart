@@ -15,6 +15,7 @@ class ChartPainter extends CustomPainter {
     TextStyle? rectTitleTextStyle,
     TextStyle? rectValueTextStyle,
     required double rectHeight,
+    required double verticalSpaceBetweenTwoRects,
   })  : _currentData = currentData,
         _chartWidth = chartWidth,
         _currentStateName = currentStateName,
@@ -22,7 +23,8 @@ class ChartPainter extends CustomPainter {
         _rectTitleTextStyle = rectTitleTextStyle,
         _rectValueTextStyle = rectValueTextStyle,
         _numberOfRects = currentData.length,
-        _rectHeight = rectHeight;
+        _rectHeight = rectHeight,
+        _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects;
 
   final List<Rectangle> _currentData;
   final double _chartWidth;
@@ -34,7 +36,7 @@ class ChartPainter extends CustomPainter {
 
   late final double _rectHeight;
   late final int _numberOfRects;
-  final double _verticalSpaceBetweenTwoRects = 8;
+  late final double _verticalSpaceBetweenTwoRects;
 
   static const _defaultTextStyle = TextStyle(
     color: Colors.black,

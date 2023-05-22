@@ -16,11 +16,13 @@ class RaceView extends StatefulWidget {
     required this.dataRowNames,
     TextStyle? dataRowNameTextStyle,
     double? rectHeight,
+    double? verticalSpaceBetweenTwoRects,
     super.key,
   })  : _dataRowNameTextStyle = dataRowNameTextStyle,
         _dataColumnNameTextStyle = dataColumnNameTextStyle,
         _dataColumnValueTextStyle = dataColumnValueTextStyle,
         _rectHeight = rectHeight ?? 50.0,
+        _verticalSpaceBetweenTwoRects = verticalSpaceBetweenTwoRects ?? 8.0,
         assert(
           dataColumnNames.length == dataColumnColors.length,
           'The length of dataColumnNames and dataColumnColors must be the same',
@@ -69,6 +71,8 @@ class RaceView extends StatefulWidget {
 
   final double _rectHeight;
 
+  final double _verticalSpaceBetweenTwoRects;
+
   @override
   State<RaceView> createState() => _RaceViewState();
 }
@@ -106,6 +110,8 @@ class _RaceViewState extends State<RaceView> {
               rectTitleTextStyle: widget._dataColumnNameTextStyle,
               rectValueTextStyle: widget._dataColumnValueTextStyle,
               rectHeight: widget._rectHeight,
+              verticalSpaceBetweenTwoRects:
+                  widget._verticalSpaceBetweenTwoRects,
             ),
           );
         },
