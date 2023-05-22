@@ -103,27 +103,24 @@ class _RaceViewState extends State<RaceView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: LayoutBuilder(
-        builder: (_, constraints) {
-          return CustomPaint(
-            painter: ChartPainter(
-              currentData: _currentStateRectData,
-              currentStateName: _currentStateName,
-              currentStateNameTextStyle:
-                  widget._dataRowNameTextStyle ?? _defaultTextStyle,
-              chartWidth: constraints.maxWidth * 0.9,
-              rectTitleTextStyle:
-                  widget._dataColumnNameTextStyle ?? _defaultTextStyle,
-              rectValueTextStyle: widget._dataColumnValueTextStyle ??
-                  _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
-              rectHeight: widget._rectHeight,
-              verticalSpaceBetweenTwoRects:
-                  widget._verticalSpaceBetweenTwoRects,
-            ),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        return CustomPaint(
+          painter: ChartPainter(
+            currentData: _currentStateRectData,
+            currentStateName: _currentStateName,
+            currentStateNameTextStyle:
+                widget._dataRowNameTextStyle ?? _defaultTextStyle,
+            chartWidth: constraints.maxWidth * 0.9,
+            rectTitleTextStyle:
+                widget._dataColumnNameTextStyle ?? _defaultTextStyle,
+            rectValueTextStyle: widget._dataColumnValueTextStyle ??
+                _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
+            rectHeight: widget._rectHeight,
+            verticalSpaceBetweenTwoRects: widget._verticalSpaceBetweenTwoRects,
+          ),
+        );
+      },
     );
   }
 
