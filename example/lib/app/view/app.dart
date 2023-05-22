@@ -1,4 +1,4 @@
-import 'package:example/counter/counter.dart';
+import 'package:example/race_view_demo/race_view_demo.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
           accentColor: const Color(0xFF13B9FF),
         ),
       ),
-      home: const CounterPage(),
+      home: const RaceViewDemoPage(),
     );
   }
 }
