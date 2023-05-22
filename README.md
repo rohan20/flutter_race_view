@@ -6,6 +6,12 @@
 
 A Flutter library which includes an animated bar chart race of all entities in a data set. Inspired by [bar_chart_race][bar_chart_race_package_link].
 
+## Demo
+
+<img src="example/assets/demo.gif" width="350" height="600">
+
+Also available as a video under `example/assets/demo.mov`.
+
 ## Installation 💻
 
 **❗ In order to start using Flutter Race View you must have the [Flutter SDK][flutter_install_link] installed on your machine.**
