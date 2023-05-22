@@ -57,7 +57,10 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // (0, 0) is the top-center of the canvas.
+    // (0, 0) is the top-left of the canvas.
+
+    // Move the canvas to the top-center
+    canvas.translate(size.width / 2, 0);
 
     final chartWidth = size.width * 0.9;
 
