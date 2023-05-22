@@ -78,6 +78,11 @@ class RaceView extends StatefulWidget {
 }
 
 class _RaceViewState extends State<RaceView> {
+  static const _defaultTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+
   late final List<List<Rectangle>> _allStatesRectData;
   late final int statesCount;
   late final int rectsCount;
@@ -105,10 +110,13 @@ class _RaceViewState extends State<RaceView> {
             painter: ChartPainter(
               currentData: _currentStateRectData,
               currentStateName: _currentStateName,
-              currentStateNameTextStyle: widget._dataRowNameTextStyle,
+              currentStateNameTextStyle:
+                  widget._dataRowNameTextStyle ?? _defaultTextStyle,
               chartWidth: constraints.maxWidth * 0.9,
-              rectTitleTextStyle: widget._dataColumnNameTextStyle,
-              rectValueTextStyle: widget._dataColumnValueTextStyle,
+              rectTitleTextStyle:
+                  widget._dataColumnNameTextStyle ?? _defaultTextStyle,
+              rectValueTextStyle: widget._dataColumnValueTextStyle ??
+                  _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
               rectHeight: widget._rectHeight,
               verticalSpaceBetweenTwoRects:
                   widget._verticalSpaceBetweenTwoRects,
