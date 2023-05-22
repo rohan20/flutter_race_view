@@ -17,11 +17,6 @@ class RaceViewDemoView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Hello World')),
       body: const SizedBox(),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: const [],
-      ),
     );
   }
 }
