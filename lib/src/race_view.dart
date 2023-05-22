@@ -10,11 +10,15 @@ class RaceView extends StatefulWidget {
     required this.data,
     required this.dataColumnNames,
     required this.dataColumnColors,
+    required TextStyle dataColumnNameTextStyle,
+    required TextStyle dataColumnValueTextStyle,
     required this.dataRowNames,
     required TextStyle dataRowNameTextStyle,
     double? rectHeight,
     super.key,
   })  : _dataRowNameTextStyle = dataRowNameTextStyle,
+        _dataColumnNameTextStyle = dataColumnNameTextStyle,
+        _dataColumnValueTextStyle = dataColumnValueTextStyle,
         _rectHeight = rectHeight ?? 50.0,
         assert(
           dataColumnNames.length == dataColumnColors.length,
@@ -58,6 +62,10 @@ class RaceView extends StatefulWidget {
 
   final TextStyle _dataRowNameTextStyle;
 
+  final TextStyle _dataColumnNameTextStyle;
+
+  final TextStyle _dataColumnValueTextStyle;
+
   final double _rectHeight;
 
   @override
@@ -94,6 +102,8 @@ class _RaceViewState extends State<RaceView> {
               currentStateName: _currentStateName,
               currentStateNameTextStyle: widget._dataRowNameTextStyle,
               chartWidth: constraints.maxWidth * 0.9,
+              rectTitleTextStyle: widget._dataColumnNameTextStyle,
+              rectValueTextStyle: widget._dataColumnValueTextStyle,
               rectHeight: widget._rectHeight,
             ),
           );

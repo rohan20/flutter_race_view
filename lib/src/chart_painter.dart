@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_race_view/src/rectangle.dart';
 
-// TODO(rohan20): Add rectTitleTextStyle and rectValueTextStyle
 /// Paints a particular state of the chart that comprises of the chart-title,
 /// chart-axes and rectangles formed by currentData.
 class ChartPainter extends CustomPainter {
@@ -13,11 +12,15 @@ class ChartPainter extends CustomPainter {
     required double chartWidth,
     required String currentStateName,
     required TextStyle currentStateNameTextStyle,
+    required TextStyle rectTitleTextStyle,
+    required TextStyle rectValueTextStyle,
     required double rectHeight,
   })  : _currentData = currentData,
         _chartWidth = chartWidth,
         _currentStateName = currentStateName,
         _currentStateNameTextStyle = currentStateNameTextStyle,
+        _rectTitleTextStyle = rectTitleTextStyle,
+        _rectValueTextStyle = rectValueTextStyle,
         _numberOfRects = currentData.length,
         _rectHeight = rectHeight;
 
@@ -25,6 +28,8 @@ class ChartPainter extends CustomPainter {
   final double _chartWidth;
   final String _currentStateName;
   final TextStyle _currentStateNameTextStyle;
+  final TextStyle _rectTitleTextStyle;
+  final TextStyle _rectValueTextStyle;
 
   late final double _rectHeight;
   late final int _numberOfRects;
@@ -141,29 +146,14 @@ class ChartPainter extends CustomPainter {
       valueString = '${valueString.substring(0, 5)}..';
     }
 
-    _textPainter.text = TextSpan(
-      text: titleString,
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-
+    // paint the title just inside the top-right vertex of the rectangle
+    _textPainter.text = TextSpan(text: titleString, style: _rectTitleTextStyle);
     _paintText(canvas, x: rectTopRightX, y: rectTopRightY);
 
+    // paint the value below title
     final titleHeight = _textPainter.height;
-
-    _textPainter.text = TextSpan(
-      text: valueString,
-      style: const TextStyle(color: Colors.black, fontSize: 16),
-    );
-
-    _paintText(
-      canvas,
-      x: rectTopRightX,
-      y: rectTopRightY + titleHeight,
-    );
+    _textPainter.text = TextSpan(text: valueString, style: _rectValueTextStyle);
+    _paintText(canvas, x: rectTopRightX, y: rectTopRightY + titleHeight);
   }
 
   void _paintText(
