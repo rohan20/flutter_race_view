@@ -16,7 +16,7 @@ class RaceViewDemoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Race View Demo')),
+      appBar: AppBar(title: const Text('Stock Prices (USD)')),
       body: Padding(
         padding: const EdgeInsets.only(top: 16),
         child: RaceView(
@@ -25,8 +25,15 @@ class RaceViewDemoView extends StatelessWidget {
             [125, 135, 80, 70, 150],
             [205, 173, 120, 370, 260],
             [325, 483, 620, 570, 460],
+            [225, 333, 820, 599, 660],
           ],
-          dataColumnNames: const ['A', 'B', 'C', 'D', 'E'],
+          dataColumnNames: const [
+            'TSLA',
+            'GOOG',
+            'AAPL',
+            'AMZN',
+            'META',
+          ],
           dataColumnColors: [
             Colors.red.shade200,
             Colors.green.shade200,
@@ -39,6 +46,7 @@ class RaceViewDemoView extends StatelessWidget {
             'Year 2018',
             'Year 2019',
             'Year 2020',
+            'Year 2021',
           ],
         ),
       ),
