@@ -11,9 +11,9 @@ class ChartPainter extends CustomPainter {
     required List<Rectangle> currentData,
     required double chartWidth,
     required String currentStateName,
-    required TextStyle currentStateNameTextStyle,
-    required TextStyle rectTitleTextStyle,
-    required TextStyle rectValueTextStyle,
+    TextStyle? currentStateNameTextStyle,
+    TextStyle? rectTitleTextStyle,
+    TextStyle? rectValueTextStyle,
     required double rectHeight,
   })  : _currentData = currentData,
         _chartWidth = chartWidth,
@@ -27,13 +27,19 @@ class ChartPainter extends CustomPainter {
   final List<Rectangle> _currentData;
   final double _chartWidth;
   final String _currentStateName;
-  final TextStyle _currentStateNameTextStyle;
-  final TextStyle _rectTitleTextStyle;
-  final TextStyle _rectValueTextStyle;
+
+  final TextStyle? _currentStateNameTextStyle;
+  final TextStyle? _rectTitleTextStyle;
+  final TextStyle? _rectValueTextStyle;
 
   late final double _rectHeight;
   late final int _numberOfRects;
   final double _verticalSpaceBetweenTwoRects = 8;
+
+  static const _defaultTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
 
   final Paint _linePaint = Paint()
     ..color = Colors.grey
@@ -143,12 +149,19 @@ class ChartPainter extends CustomPainter {
     }
 
     // paint the title just inside the top-right vertex of the rectangle
-    _textPainter.text = TextSpan(text: titleString, style: _rectTitleTextStyle);
+    _textPainter.text = TextSpan(
+      text: titleString,
+      style: _rectTitleTextStyle ?? _defaultTextStyle,
+    );
     _paintText(canvas, x: rectTopRightX, y: rectTopRightY);
 
     // paint the value below title
     final titleHeight = _textPainter.height;
-    _textPainter.text = TextSpan(text: valueString, style: _rectValueTextStyle);
+    _textPainter.text = TextSpan(
+      text: valueString,
+      style: _rectValueTextStyle ??
+          _defaultTextStyle.copyWith(fontWeight: FontWeight.normal),
+    );
     _paintText(canvas, x: rectTopRightX, y: rectTopRightY + titleHeight);
   }
 
@@ -178,7 +191,10 @@ class ChartPainter extends CustomPainter {
     required double chartWidth,
   }) {
     _textPainter
-      ..text = TextSpan(text: name, style: _currentStateNameTextStyle)
+      ..text = TextSpan(
+        text: name,
+        style: _currentStateNameTextStyle ?? _defaultTextStyle,
+      )
       ..layout()
       ..paint(
         canvas,

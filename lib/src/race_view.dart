@@ -10,10 +10,10 @@ class RaceView extends StatefulWidget {
     required this.data,
     required this.dataColumnNames,
     required this.dataColumnColors,
-    required TextStyle dataColumnNameTextStyle,
-    required TextStyle dataColumnValueTextStyle,
+    TextStyle? dataColumnNameTextStyle,
+    TextStyle? dataColumnValueTextStyle,
     required this.dataRowNames,
-    required TextStyle dataRowNameTextStyle,
+    TextStyle? dataRowNameTextStyle,
     double? rectHeight,
     super.key,
   })  : _dataRowNameTextStyle = dataRowNameTextStyle,
@@ -60,11 +60,11 @@ class RaceView extends StatefulWidget {
   /// the chart.
   final List<String> dataRowNames;
 
-  final TextStyle _dataRowNameTextStyle;
+  final TextStyle? _dataRowNameTextStyle;
 
-  final TextStyle _dataColumnNameTextStyle;
+  final TextStyle? _dataColumnNameTextStyle;
 
-  final TextStyle _dataColumnValueTextStyle;
+  final TextStyle? _dataColumnValueTextStyle;
 
   final double _rectHeight;
 
