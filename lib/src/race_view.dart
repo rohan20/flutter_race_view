@@ -105,10 +105,20 @@ class _RaceViewState extends State<RaceView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constraints) {
-        final stateNameTextStyle = widget._dataRowNameTextStyle ??
-            _defaultTextStyle;
+        final stateNameTextStyle =
+            widget._dataRowNameTextStyle ?? _defaultTextStyle;
+
+        final stateNameTextHeight = _currentStateName.getTextHeight(
+          style: stateNameTextStyle,
+        );
+
+        final canvasSizeHeight = stateNameTextHeight +
+            (widget._rectHeight * rectsCount) +
+            (widget._verticalSpaceBetweenTwoRects * (rectsCount - 1)) +
+            16; // TODO(rohan20): Extract '16' into field
 
         return CustomPaint(
+          size: Size(constraints.maxWidth, canvasSizeHeight),
           painter: ChartPainter(
             currentData: _currentStateRectData,
             currentStateName: _currentStateName,
