@@ -136,14 +136,10 @@ class ChartPainter extends CustomPainter {
     required double rectTopRightY,
   }) {
     var titleString = title;
-    var valueString = value.round().toString();
+    final valueString = value.round().toString();
 
     if (title.length > 35) {
       titleString = '${titleString.substring(0, 35)}..';
-    }
-
-    if (valueString.length > 5) {
-      valueString = '${valueString.substring(0, 5)}..';
     }
 
     // paint the title just inside the top-right vertex of the rectangle
